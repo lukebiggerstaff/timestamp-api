@@ -1,0 +1,27 @@
+version: "2"
+settings:
+
+  conductor:
+    base: alpine:3.5
+
+  project_name: timestamp
+
+services:
+  django:
+    from: alpine:3.5
+    roles:
+      - django
+    dev_overrides:
+      ports:
+        - "8000:8000"
+      command: ["python3", "/django/manage.py", "runserver", "0.0.0.0:8000"]
+
+  nginx:
+    from: nginx:1.13.7-alpine
+    dev_overrides:
+      command: ["/bin/false"]
+
+registries:
+  docker:
+    url: https://docker.io
+    namespace: lbigg

@@ -1,0 +1,22 @@
+# install python and dependencies
+- name: install python3 and deps
+  apk:
+    name: "{{ item }}"
+    update_cache: yes
+  with_items:
+    - python3
+    - python3-dev
+
+# create app directory
+- name: create /django directory
+  file: path=/django state=directory
+
+# copy django files to container
+- name: copy local install into container
+  copy: "src=/src/{{ LOCAL_PROJ_DIR }}/ dest=/django/"
+
+# pip install requirements
+- name: pip install requirements.txt
+  pip: 
+    executable: /usr/bin/pip3
+    requirements: /django/requirements.txt
